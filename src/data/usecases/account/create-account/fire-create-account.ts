@@ -29,7 +29,7 @@ export class FireCreateAccount extends FireClient implements CreateAccount {
         throw new Error('Não foi possível criar o usuário')
       }
     } catch (error) {
-      throw new Error(super.parseError(error))
+      throw new Error(error)
     }
   }
 }
