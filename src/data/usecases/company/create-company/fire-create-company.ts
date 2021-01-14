@@ -19,7 +19,10 @@ export class FireCreateCompany extends FireClient implements CreateCompany {
           name: params.name,
           password: params.password,
           email: params.email,
-          type: TYPE_COMPANY
+          type: {
+            identifier: TYPE_COMPANY,
+            uid: params.cnpj
+          }
         })
 
       const companyRefDoc = this.db.collection(COMPANY).doc(params.cnpj)

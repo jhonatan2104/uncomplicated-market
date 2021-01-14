@@ -1,4 +1,4 @@
-import { AccountModel } from '@/domain/models/account'
+import { AccountModel, TypeAccount } from '@/domain/models/account'
 
 export interface CreateAccount {
   execute: (params: CreateAccount.Params) => Promise<CreateAccount.Model>
@@ -9,7 +9,7 @@ export namespace CreateAccount {
     name: string
     email: string
     password: string
-    type: string
+    type: TypeAccount
   }
   export type Model = AccountModel
 }
