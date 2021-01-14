@@ -1,4 +1,4 @@
-import { CooperatorModel } from '@/domain/models/cooperator'
+import { AccountModel } from '@/domain/models/account'
 
 export interface CreateCooperator {
   execute: (params: CreateCooperator.Params) => Promise<CreateCooperator.Model>
@@ -12,5 +12,5 @@ export namespace CreateCooperator {
     cnpj: string
     accessCode: string
   }
-  export type Model = CooperatorModel
+  export type Model = AccountModel
 }

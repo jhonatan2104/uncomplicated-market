@@ -2,7 +2,6 @@ import { CreateCooperator } from '@/domain/usecases/cooperator'
 import { CreateAccount } from '@/domain/usecases/account'
 import { VerifyAccessCode } from '@/domain/usecases/company'
 import { FireClient } from '@/infra'
-import { COOPERATOR } from '@/infra/constants/collections'
 import { TYPE_COOPERATOR } from '@/data/constants/account'
 
 export class FireCreateCooperator extends FireClient implements CreateCooperator {
@@ -24,27 +23,21 @@ export class FireCreateCooperator extends FireClient implements CreateCooperator
         })
 
       if (verifyAccess) {
-        const account = await this.createAccount
-          .execute({
-            name: params.name,
-            password: params.password,
-            email: params.email,
-            type: {
-              identifier: TYPE_COOPERATOR
-            }
-          })
-
-        const cooperatorRefDoc = this.db.collection(COOPERATOR).doc(account.uid)
-
         const newCooperator = {
-          account,
-          company: params.cnpj,
-          status: 'ACTIVE'
+          name: params.name,
+          password: params.password,
+          email: params.email,
+          type: {
+            identifier: TYPE_COOPERATOR,
+            company: params.cnpj,
+            status: 'ACTIVE'
+          }
         }
 
-        await cooperatorRefDoc.set(newCooperator)
+        const account = await this.createAccount
+          .execute(newCooperator)
 
-        return newCooperator
+        return account
       } else {
         throw new Error('Código acesso inválido')
       }

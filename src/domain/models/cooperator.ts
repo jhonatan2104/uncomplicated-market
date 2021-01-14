@@ -1,7 +1,5 @@
-import { AccountModel } from './account'
-
 export type CooperatorModel = {
-  account: AccountModel
+  identifier: string
   company: string
   status: string
 }
