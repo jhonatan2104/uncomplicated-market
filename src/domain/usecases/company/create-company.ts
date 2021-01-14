@@ -1,4 +1,4 @@
-import { CompanyModel } from '@/domain/models/company'
+import { AccountModel } from '@/domain/models/account'
 
 export interface CreateCompany {
   execute: (params: CreateCompany.Params) => Promise<CreateCompany.Model>
@@ -13,5 +13,5 @@ export namespace CreateCompany {
     accessCode: string
   }
 
-  export type Model = CompanyModel
+  export type Model = AccountModel
 }

@@ -1,7 +1,6 @@
 import { CreateCompany } from '@/domain/usecases/company'
 import { CreateAccount } from '@/domain/usecases/account'
 import { FireClient } from '@/infra'
-import { COMPANY } from '@/infra/constants/collections'
 import { TYPE_COMPANY } from '@/data/constants/account'
 
 export class FireCreateCompany extends FireClient implements CreateCompany {
@@ -14,28 +13,21 @@ export class FireCreateCompany extends FireClient implements CreateCompany {
 
   execute = async (params: CreateCompany.Params): Promise<CreateCompany.Model> => {
     try {
-      const account = await this.createAccount
-        .execute({
-          name: params.name,
-          password: params.password,
-          email: params.email,
-          type: {
-            identifier: TYPE_COMPANY,
-            uid: params.cnpj
-          }
-        })
-
-      const companyRefDoc = this.db.collection(COMPANY).doc(params.cnpj)
-
       const newCompany = {
-        account,
-        cnpj: params.cnpj,
-        accessCode: params.accessCode
+        name: params.name,
+        password: params.password,
+        email: params.email,
+        type: {
+          identifier: TYPE_COMPANY,
+          cnpj: params.cnpj,
+          accessCode: params.accessCode
+        }
       }
 
-      await companyRefDoc.set(newCompany)
+      const account = await this.createAccount
+        .execute(newCompany)
 
-      return newCompany
+      return account
     } catch (error) {
       throw new Error(error)
     }

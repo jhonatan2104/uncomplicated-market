@@ -1,7 +1,5 @@
-import { AccountModel } from './account'
-
 export type CompanyModel = {
-  account: AccountModel
+  identifier: string
   cnpj: string
   accessCode: string
 }
