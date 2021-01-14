@@ -1,5 +1,6 @@
 import { CreateAccount } from '@/domain/usecases/account'
 import { FireClient } from '@/infra'
+import { ACCOUNT } from '@/infra/constants/collections'
 
 export class FireCreateAccount extends FireClient implements CreateAccount {
   execute = async (params: CreateAccount.Params): Promise<CreateAccount.Model> => {
@@ -13,7 +14,7 @@ export class FireCreateAccount extends FireClient implements CreateAccount {
       if (userCurrent) {
         await userCurrent.updateProfile({ displayName: params.name })
 
-        const userRefDoc = this.db.collection('accounts').doc(userCurrent.uid)
+        const userRefDoc = this.db.collection(ACCOUNT).doc(userCurrent.uid)
 
         const newAccount = {
           name: params.name,

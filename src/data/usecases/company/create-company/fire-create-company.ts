@@ -1,6 +1,7 @@
 import { CreateCompany } from '@/domain/usecases/company'
 import { CreateAccount } from '@/domain/usecases/account'
 import { FireClient } from '@/infra'
+import { COMPANY } from '@/infra/constants/collections'
 import { TYPE_COMPANY } from '@/data/constants/account'
 
 export class FireCreateCompany extends FireClient implements CreateCompany {
@@ -21,7 +22,7 @@ export class FireCreateCompany extends FireClient implements CreateCompany {
           type: TYPE_COMPANY
         })
 
-      const companyRefDoc = this.db.collection('company').doc(params.cnpj)
+      const companyRefDoc = this.db.collection(COMPANY).doc(params.cnpj)
 
       const newCompany = {
         account,
