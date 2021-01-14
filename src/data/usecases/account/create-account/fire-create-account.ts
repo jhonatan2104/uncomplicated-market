@@ -19,10 +19,7 @@ export class FireCreateAccount extends FireClient implements CreateAccount {
         const newAccount: CreateAccount.Model = {
           name: params.name,
           email: params.email,
-          type: {
-            identifier: params.type.identifier,
-            uid: params.type.uid ?? userCurrent.uid
-          },
+          type: params.type,
           uid: userCurrent.uid
         }
 

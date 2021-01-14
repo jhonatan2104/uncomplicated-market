@@ -1,11 +1,9 @@
-export type TypeAccount = {
-  uid: string
-  identifier: string
-}
+import { CompanyModel } from './company'
+import { CooperatorModel } from './cooperator'
 
 export type AccountModel = {
   uid: string
   name: string
   email: string
-  type: TypeAccount
+  type: CompanyModel | CooperatorModel
 }
