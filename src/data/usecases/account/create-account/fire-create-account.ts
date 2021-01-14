@@ -16,10 +16,13 @@ export class FireCreateAccount extends FireClient implements CreateAccount {
 
         const userRefDoc = this.db.collection(ACCOUNT).doc(userCurrent.uid)
 
-        const newAccount = {
+        const newAccount: CreateAccount.Model = {
           name: params.name,
           email: params.email,
-          type: params.type,
+          type: {
+            identifier: params.type.identifier,
+            uid: params.type.uid ?? userCurrent.uid
+          },
           uid: userCurrent.uid
         }
 
