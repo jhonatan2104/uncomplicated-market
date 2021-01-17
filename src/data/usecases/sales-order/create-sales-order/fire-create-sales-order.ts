@@ -42,13 +42,12 @@ export class FireCreateSalesOrder extends FireClient implements CreateSalesOrder
 
       const docSalesRef = this.db.collection(SALES).doc(salesUid)
 
-      const sales = {
+      const sales: CreateSalesOrder.Model = {
         price: params.price,
         items: params.items,
         timestamp: getNow(),
         company,
-        emitter,
-        client: ''
+        emitter
       }
 
       await docSalesRef.set(sales)
