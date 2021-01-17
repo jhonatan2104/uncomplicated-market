@@ -1,12 +1,10 @@
-import { AccountModel } from './account'
-
 export type ProductModel = {
   uid: string
   price: number
   name: string
   code: string
-  company: AccountModel
-  createdBy?: AccountModel
+  company: string
+  createdBy?: string
 }
 
 export type ProductBasicModel = {
