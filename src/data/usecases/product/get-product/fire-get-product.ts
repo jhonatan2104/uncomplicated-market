@@ -7,7 +7,7 @@ export class FireGetProduct extends FireClient implements GetProduct {
     try {
       const productResult = await this.db.collection(PRODUCTS)
         .where('code', '==', params.code)
-        .where('company.type.cnpj', '==', params.company)
+        .where('company', '==', params.company)
         .get()
 
       if (productResult.empty) {
