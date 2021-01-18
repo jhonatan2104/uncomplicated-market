@@ -7,7 +7,7 @@ export interface GetProduct {
 export namespace GetProduct {
   export type Params = {
     code: string
-    company: string
+    uid_company: string
   }
 
   export type Result = ProductModel | null

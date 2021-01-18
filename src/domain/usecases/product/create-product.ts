@@ -9,8 +9,8 @@ export namespace CreateProduct {
     price: number
     name: string
     code: string
-    company: string
-    createdBy?: string
+    uid_company: string
+    uid_createdBy?: string
   }
 
   export type Model = ProductModel

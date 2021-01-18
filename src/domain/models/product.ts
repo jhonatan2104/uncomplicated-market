@@ -1,9 +1,11 @@
+import { AccountModel } from '@/domain/models'
+
 export type ProductModel = {
   uid: string
   price: number
   name: string
   code: string
-  company: string
+  company: AccountModel
   createdBy?: string
 }
 

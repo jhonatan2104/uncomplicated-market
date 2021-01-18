@@ -8,8 +8,8 @@ export namespace CreateSalesOrder {
   export type Params = {
     price: number
     items: ItemSalesOrder[]
-    company: string
-    emitter: string
+    uid_company: string
+    uid_emitter: string
     client?: ClientModel
   }
 
