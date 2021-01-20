@@ -1,14 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
 
-export default function App() {
+import Router from '@/main/router'
+
+import { helpersLoadingApp } from '@/main/helpers'
+
+const App: React.FC = () => {
+  const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    helpersLoadingApp().then(() => {
+      console.log('App Loading')
+      setLoading(true)
+    })
+      .catch((err: Error) => {
+        console.log(`Error App Loading ${err.message}`)
+      })
+  }, [])
+
+  if (!loading) {
+    return <View />
+  }
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Router />
+
       <StatusBar style="auto" />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -16,6 +35,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    justifyContent: 'center'
+  }
+})
+
+export default App
