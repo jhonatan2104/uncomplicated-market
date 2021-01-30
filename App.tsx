@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
+
+import AppThemeProvider from '@/main/factories/theme/theme-provider-factory'
 
 import Router from '@/main/router'
 
@@ -22,21 +24,10 @@ const App: React.FC = () => {
     return <View />
   }
   return (
-    <View style={styles.container}>
+    <AppThemeProvider>
       <Router />
-
-      <StatusBar style="auto" />
-    </View>
+    </AppThemeProvider>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
 
 export default App

@@ -1,7 +1,8 @@
 import React from 'react'
-import { Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+
+import { makeChangeRegistration } from '@/main/factories/pages'
 
 const Stack = createStackNavigator()
 
@@ -13,7 +14,7 @@ const Router: React.FC = () => {
           headerShown: false
         }}
       >
-        <Stack.Screen name='Login' component={() => <Text>Market</Text>}/>
+        <Stack.Screen name='ChangeRegistration' component={makeChangeRegistration}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
