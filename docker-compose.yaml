@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  app:
+    image: "theanam/react-native"
+    network_mode: host
+    volumes:
+      - ".:/app"
+    command: "expo start"
