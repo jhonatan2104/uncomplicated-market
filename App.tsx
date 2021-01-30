@@ -1,8 +1,8 @@
-import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 
 import AppThemeProvider from '@/main/factories/theme/theme-provider-factory'
+import AppStoreProvider from '@/main/factories/store/store-provider-factory'
 
 import Router from '@/main/router'
 
@@ -24,9 +24,12 @@ const App: React.FC = () => {
     return <View />
   }
   return (
-    <AppThemeProvider>
-      <Router />
-    </AppThemeProvider>
+    <AppStoreProvider>
+      <AppThemeProvider>
+        <Router />
+      </AppThemeProvider>
+    </AppStoreProvider>
+
   )
 }
 
