@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, ViewProps, ScrollView, StyleSheet, SafeAreaView, Text } from 'react-native'
 import Constants from 'expo-constants'
+import theme from '@/presentation/theme'
 
 type Props = {
   bg: string
@@ -25,6 +26,8 @@ const styles = StyleSheet.create({
     height: 658
   },
   circle: {
+    position: 'absolute',
+    left: -122,
     width: '100%',
     height: '100%',
     borderRadius: 658,
@@ -44,7 +47,7 @@ const BackgroundCircle: React.FC<ViewProps & Props> = (props: ViewProps & Props)
   const { children, bg, bgBack } = props
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#fff', flex: 1, marginTop: Constants.statusBarHeight }}>
+    <SafeAreaView style={{ backgroundColor: theme.colorsBase.darkWhite, flex: 1, marginTop: Constants.statusBarHeight }}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.containerScroll}
@@ -52,7 +55,7 @@ const BackgroundCircle: React.FC<ViewProps & Props> = (props: ViewProps & Props)
         <View style={[
           styles.container,
           {
-            backgroundColor: bgBack ?? '#fff'
+            backgroundColor: bgBack ?? theme.colorsBase.darkWhite
           }
 
         ]}>
