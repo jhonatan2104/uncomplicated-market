@@ -14,12 +14,12 @@ type Props = {
 
 const AppThemeProvider: React.FC<Props> = ({ children }: Props) => {
   const themeCooperator = useMemo(() => ({
-    colorBase: presentationTheme.colorsBase,
+    colorsBase: presentationTheme.colorsBase,
     ...presentationTheme.cooperator
   }), [])
 
   const themeCompany = useMemo(() => ({
-    colorBase: presentationTheme.colorsBase,
+    colorsBase: presentationTheme.colorsBase,
     ...presentationTheme.company
   }), [])
 
