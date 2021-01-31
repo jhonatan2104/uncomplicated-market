@@ -3,7 +3,7 @@ import { SALES, ACCOUNT } from '@/infra/constants/collections'
 import { CreateSalesOrder } from '@/domain/usecases/sales-order/create-sales-order'
 import { GetAccount } from '@/domain/usecases/account/get-account'
 import { makeUuid } from '@/data/factories/uuid-factory'
-import { getNow } from '@/data/helpers/date-helper'
+import { getNow, getDay } from '@/data/helpers/date-helper'
 
 export class FireCreateSalesOrder extends FireClient implements CreateSalesOrder {
   constructor (
@@ -36,8 +36,11 @@ export class FireCreateSalesOrder extends FireClient implements CreateSalesOrder
       }
 
       const salesUid = makeUuid('SL')
+      const daySales = getDay()
 
       const docSalesRef = this.db.collection(ACCOUNT).doc(params.uid_company)
+        .collection(SALES)
+        .doc(daySales)
         .collection(SALES)
         .doc(salesUid)
 
