@@ -20,3 +20,16 @@ export default {
     base: colorsBase.darkWhite
   }
 }
+
+export type Theme = {
+  colorsBase: {
+    darkBlue: string
+    orange: string
+    white: string
+    darkWhite: string
+  }
+  primary: string
+  second: string
+  textLight: string
+  base: string
+}
