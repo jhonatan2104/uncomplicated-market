@@ -2,7 +2,13 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { makeChangeRegistration, makeSingUpCompany, makeSingUpCooperator, makeSingUpCompanyPassword } from '@/main/factories/pages'
+import {
+  makeChangeRegistration,
+  makeSingUpCompany,
+  makeSingUpCooperator,
+  makeSingUpCompanyPassword,
+  makeSingUpCompanyAccessCode
+} from '@/main/factories/pages'
 
 const Stack = createStackNavigator()
 
@@ -18,6 +24,7 @@ const Router: React.FC = () => {
         <Stack.Screen name='SignUpCooperator' component={makeSingUpCooperator}/>
         <Stack.Screen name='SignUpCompany' component={makeSingUpCompany}/>
         <Stack.Screen name='SignUpCompanyPassword' component={makeSingUpCompanyPassword}/>
+        <Stack.Screen name='SignUpCompanyAccessCode' component={makeSingUpCompanyAccessCode}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

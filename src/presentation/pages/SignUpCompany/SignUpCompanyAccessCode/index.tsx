@@ -2,36 +2,46 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 import React, { useCallback, useEffect, useRef } from 'react'
-import { View, Alert } from 'react-native'
+import { View, Alert, TouchableOpacity } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 
 import { useTheme } from '@/presentation/hooks/use-theme'
 
-import { InputPassword, BackgroundCircle, ButtonCircular, TextRoboto } from '@/presentation/components'
+import { Input, BackgroundCircle, ButtonCircular, TextRoboto } from '@/presentation/components'
 import { Container } from '@/presentation/components/styled'
 
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useRoute, useNavigation } from '@react-navigation/native'
+
+import { toMaskCnpj } from '@/presentation/utils'
+
+import config from '@/presentation/config/alerts.json'
+
+import { CreateCompany } from '@/domain/usecases/company'
 
 type FormValues = {
-  password: string
-  passwordConfirmation: string
+  accessCode: string
 }
 
-export type ParamsExportNavigation = {
+export type ParamsExportRequest = {
   name: string
   cnpj: string
   email: string
   password: string
   passwordConfirmation: string
+  accessCode: string
 }
 
-const SignUpCompanyPassword: React.FC = () => {
+type Props = {
+  createCompany: CreateCompany
+}
+
+const SignUpCompanyPassword: React.FC<Props> = ({ createCompany }: Props) => {
   const theme = useTheme()
-  const navigation = useNavigation()
   const route = useRoute()
+  const navigation = useNavigation()
   const refFormik = useRef<any>(null)
 
   useEffect(() => {
@@ -41,27 +51,21 @@ const SignUpCompanyPassword: React.FC = () => {
   const { companyParams }: any = route.params
 
   const schemaCompanyBasic = Yup.object().shape({
-    password: Yup.string().min(6)
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])/,
-        'Deve conter letras maiúsculas e minúsculas'
-      )
-      .matches(/^(?=.*[0-9])/, 'Deve conter ao menos 1 números').required(),
-    passwordConfirmation: Yup.string().when('password', (value: any, schema: any) => {
-      if (value) {
-        return schema.oneOf([value], 'As senhas devem corresponder').required()
-      }
-      return schema.notRequired()
-    })
+    accessCode: Yup.string().min(4)
+      .matches(/^(?=.*[0-9])/, 'Deve conter números')
+      .required()
   })
 
   const initValues: FormValues = {
-    password: '',
-    passwordConfirmation: ''
+    accessCode: ''
   }
 
   const alertFormInvalid = useCallback(() => {
-    Alert.alert('Queremos você seguro!', 'Sua senha precisa conter letras maiúsculas, minúsculas e um número')
+    Alert.alert('Não esqueça do seu código de acesso!', 'Esse código precisa conter 4 dígitos. Mas, não escolha uma sequencia com números repetidos!')
+  }, [])
+
+  const alertFormInfo = useCallback(() => {
+    Alert.alert(config.accessCode.title, config.accessCode.body)
   }, [])
 
   const navigateBack = useCallback(() => {
@@ -69,11 +73,25 @@ const SignUpCompanyPassword: React.FC = () => {
   }, [])
 
   const navigationToAccessCode = useCallback((values: FormValues): void => {
-    const companyParamsWithPassword: ParamsExportNavigation = {
+    const companyParamsRequest: ParamsExportRequest = {
       ...values,
       ...companyParams
     }
-    navigation.navigate('SignUpCompanyAccessCode', { companyParams: companyParamsWithPassword })
+
+    console.log(companyParamsRequest)
+
+    createCompany.execute({
+      cnpj: companyParamsRequest.cnpj,
+      name: companyParamsRequest.name,
+      email: companyParamsRequest.email,
+      accessCode: companyParamsRequest.accessCode,
+      password: companyParamsRequest.password
+    }).then((e) => {
+      Alert.alert('Seja bem vindo!')
+    })
+      .catch((e: Error) => {
+        Alert.alert('Algo deu errado', e.message)
+      })
   }, [])
 
   return (
@@ -89,7 +107,7 @@ const SignUpCompanyPassword: React.FC = () => {
           <Container>
             <MaterialIcons name="screen-lock-portrait" size={83} color={theme.primary} />
             <View style={{
-              marginTop: 16
+              marginTop: 30
             }}>
               <TextRoboto
                 align='center'
@@ -97,11 +115,11 @@ const SignUpCompanyPassword: React.FC = () => {
                 size={24}
                 color={theme.textDark}
               >
-                {`Olá ${companyParams.name}!`}
+                Sua empresa será identificada pelo CNPJ
               </TextRoboto>
             </View>
             <View style={{
-              marginTop: 8
+              marginTop: 30
             }}>
               <TextRoboto
                 align='center'
@@ -109,27 +127,31 @@ const SignUpCompanyPassword: React.FC = () => {
                 size={20}
                 color={theme.colorsBase.darkBlue}
               >
-                Agora você pode escolher a sua senha.
+                {`${toMaskCnpj(companyParams.cnpj)}`}
               </TextRoboto>
             </View>
             <View style={{
-              marginTop: 16
+              marginTop: 40
             }}>
-              <TextRoboto>Senha</TextRoboto>
-              <InputPassword
-                value={values.password}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-              />
-            </View>
-            <View style={{
-              marginTop: 8
-            }}>
-              <TextRoboto>Confirme sua senha</TextRoboto>
-              <InputPassword
-                value={values.passwordConfirmation}
-                onChangeText={handleChange('passwordConfirmation')}
-                onBlur={handleBlur('passwordConfirmation')}
+
+              <TouchableOpacity
+                onPress={alertFormInfo}
+                style={{
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between'
+                }}>
+                <TextRoboto>Crie a chave de acesso</TextRoboto>
+                <MaterialIcons name="help" size={20} color={theme.opaque} />
+
+              </TouchableOpacity>
+
+              <Input
+                value={values.accessCode}
+                onChangeText={handleChange('accessCode')}
+                onBlur={handleBlur('accessCode')}
+                keyboardType='phone-pad'
+                maxLength={4}
               />
             </View>
 
@@ -146,13 +168,14 @@ const SignUpCompanyPassword: React.FC = () => {
               >
                 <MaterialIcons name="arrow-back" size={28} color={theme.textLight} />
               </ButtonCircular>
+
               <ButtonCircular
                 bg={theme.primary}
                 onPress={() => navigationToAccessCode(values)}
                 onDisable={alertFormInvalid}
                 {...{ isValid }}
               >
-                <MaterialIcons name="arrow-forward" size={28} color={theme.textLight} />
+                <MaterialIcons name="add" size={28} color={theme.textLight} />
               </ButtonCircular>
             </View>
           </Container>

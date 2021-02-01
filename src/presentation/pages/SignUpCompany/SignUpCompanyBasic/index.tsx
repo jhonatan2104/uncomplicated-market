@@ -59,6 +59,10 @@ const SignUpCompanyBasic: React.FC = () => {
     Alert.alert('Acho que esqueceu alguma coisa!', 'Preencha os campos para nos conhecermos melhor :)')
   }, [])
 
+  const navigateBack = useCallback(() => {
+    navigation.goBack()
+  }, [])
+
   const navigationToAccessCode = useCallback((values: FormValues): void => {
     const companyParams: ParamsExportNavigation = {
       ...values,
@@ -117,10 +121,18 @@ const SignUpCompanyBasic: React.FC = () => {
             </View>
 
             <View style={{
-              alignItems: 'flex-end',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
               width: '100%',
               marginTop: 20
             }}>
+              <ButtonCircular
+                bg={theme.primary}
+                onPress={navigateBack}
+                isValid
+              >
+                <MaterialIcons name="arrow-back" size={28} color={theme.textLight} />
+              </ButtonCircular>
               <ButtonCircular
                 bg={theme.primary}
                 onPress={() => navigationToAccessCode(values)}
