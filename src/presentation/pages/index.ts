@@ -1,6 +1,7 @@
 export { default as ChangeRegistration } from './ChangeRegistration'
 export { default as Login } from './Login'
 export { default as Home } from './Home'
+export { default as Splash } from './Splash'
 export { default as SignUpCompanyBasic } from './SignUpCompany/SignUpCompanyBasic'
 export { default as SignUpCompanyPassword } from './SignUpCompany/SignUpCompanyPassword'
 export { default as SignUpCompanyAccessCode } from './SignUpCompany/SignUpCompanyAccessCode'

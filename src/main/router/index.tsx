@@ -11,7 +11,8 @@ import {
   makeSingUpCooperatorPassword,
   makeSingUpCooperatorVerifyCode,
   makeLogin,
-  makeHome
+  makeHome,
+  makeSplash
 } from '@/main/factories/pages'
 
 const Stack = createStackNavigator()
@@ -24,6 +25,7 @@ const Router: React.FC = () => {
           headerShown: false
         }}
       >
+        <Stack.Screen name='Splash' component={makeSplash}/>
         <Stack.Screen name='Login' component={makeLogin}/>
         <Stack.Screen name='Home' component={makeHome}/>
         <Stack.Screen name='ChangeRegistration' component={makeChangeRegistration}/>

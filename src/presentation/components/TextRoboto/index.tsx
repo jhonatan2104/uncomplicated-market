@@ -15,7 +15,7 @@ const right = 'right'
 const center = 'center'
 const justify = 'justify'
 
-type Props = {
+export type Props = {
   weight?: typeof bold | typeof black | typeof medium | typeof regular | typeof light
   color?: string
   size?: number

@@ -3,7 +3,7 @@ import { View, ViewProps, ScrollView, StyleSheet, SafeAreaView, Text } from 'rea
 import Constants from 'expo-constants'
 import theme from '@/presentation/theme'
 
-type Props = {
+export type Props = {
   bg: string
   children: React.ReactNode
   bgBack?: string
