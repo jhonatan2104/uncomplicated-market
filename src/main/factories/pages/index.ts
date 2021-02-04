@@ -1,4 +1,6 @@
 export * from './change-registration-factory'
+export * from './login-factory'
+export * from './home-factory'
 export * from './signup-company/signup-company-factory'
 export * from './signup-company/signup-company-password-factory'
 export * from './signup-company/signup-company-access-code-factory'
