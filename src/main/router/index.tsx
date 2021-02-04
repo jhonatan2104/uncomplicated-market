@@ -7,7 +7,9 @@ import {
   makeSingUpCompany,
   makeSingUpCooperator,
   makeSingUpCompanyPassword,
-  makeSingUpCompanyAccessCode
+  makeSingUpCompanyAccessCode,
+  makeSingUpCooperatorPassword,
+  makeSingUpCooperatorVerifyCode
 } from '@/main/factories/pages'
 
 const Stack = createStackNavigator()
@@ -22,6 +24,8 @@ const Router: React.FC = () => {
       >
         <Stack.Screen name='ChangeRegistration' component={makeChangeRegistration}/>
         <Stack.Screen name='SignUpCooperator' component={makeSingUpCooperator}/>
+        <Stack.Screen name='SignUpCooperatorPassword' component={makeSingUpCooperatorPassword}/>
+        <Stack.Screen name='SignUpCooperatorVerifyCode' component={makeSingUpCooperatorVerifyCode}/>
         <Stack.Screen name='SignUpCompany' component={makeSingUpCompany}/>
         <Stack.Screen name='SignUpCompanyPassword' component={makeSingUpCompanyPassword}/>
         <Stack.Screen name='SignUpCompanyAccessCode' component={makeSingUpCompanyAccessCode}/>
