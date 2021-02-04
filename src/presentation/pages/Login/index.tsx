@@ -13,7 +13,7 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 
 import { CommonActions, useNavigation } from '@react-navigation/native'
-import { Auth } from '@/domain/usecases/auth'
+import { Auth } from '@/domain/usecases/session/auth'
 import { useDispatch } from 'react-redux'
 import { actionSetAccount } from '@/presentation/store/system/actions'
 

@@ -1,4 +1,4 @@
-import { Auth } from '@/domain/usecases/auth'
+import { Auth } from '@/domain/usecases/session/auth'
 import { FireClient } from '@/infra'
 import { GetAccount } from '@/domain/usecases/account/get-account'
 
