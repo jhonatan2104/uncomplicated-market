@@ -1,4 +1,5 @@
-import { SystemActionTypes, SET_TYPE_ACCOUNT } from './@types/actions'
+import { AccountModel } from '@/domain/models'
+import { SystemActionTypes, SET_TYPE_ACCOUNT, SET_ACCOUNT } from './@types/actions'
 import { TypeAccount } from './@types/state'
 
 export const actionSetTypeAccount = (typeAccount: TypeAccount): SystemActionTypes => {
@@ -7,3 +8,8 @@ export const actionSetTypeAccount = (typeAccount: TypeAccount): SystemActionType
     payload: typeAccount
   }
 }
+
+export const actionSetAccount = (account: AccountModel): SystemActionTypes => ({
+  type: SET_ACCOUNT,
+  payload: account
+})
