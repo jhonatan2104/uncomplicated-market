@@ -12,7 +12,7 @@ import { Container } from '@/presentation/components/styled'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 
-import { useNavigation } from '@react-navigation/native'
+import { CommonActions, useNavigation } from '@react-navigation/native'
 import { Auth } from '@/domain/usecases/auth'
 import { useDispatch } from 'react-redux'
 import { actionSetAccount } from '@/presentation/store/system/actions'
@@ -62,7 +62,17 @@ const Login: React.FC<Props> = ({ auth }: Props) => {
       password: values.password
     }).then((account) => {
       dispatch(actionSetAccount(account))
-      navigation.navigate('Home')
+
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'Home'
+            }
+          ]
+        })
+      )
     })
       .catch((e: Error) => {
         Alert.alert('Alguma coisa deu errado!', e.message)
