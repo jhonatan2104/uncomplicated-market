@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { View, Alert } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 
@@ -42,6 +42,8 @@ const SignUpCooperatorVerifyCode: React.FC<Props> = ({ createCooperator }: Props
   const route = useRoute()
   const refFormik = useRef<any>(null)
 
+  const [isLoading, setLoading] = useState(false)
+
   useEffect(() => {
     refFormik.current.validateForm()
   }, [])
@@ -76,6 +78,7 @@ const SignUpCooperatorVerifyCode: React.FC<Props> = ({ createCooperator }: Props
   }, [])
 
   const navigationToAccessCode = useCallback((values: FormValues): void => {
+    setLoading(true)
     const cooperatorParamsRequest: ParamsExportRequest = {
       ...cooperatorParams,
       ...values,
@@ -95,6 +98,9 @@ const SignUpCooperatorVerifyCode: React.FC<Props> = ({ createCooperator }: Props
       .catch((e: Error) => {
         Alert.alert('Algo deu errado', e.message)
       })
+      .finally(() => {
+        setLoading(false)
+      })
   }, [])
 
   return (
@@ -110,7 +116,7 @@ const SignUpCooperatorVerifyCode: React.FC<Props> = ({ createCooperator }: Props
           <Container>
             <MaterialIcons name="screen-lock-portrait" size={83} color={theme.primary} />
             <View style={{
-              marginTop: 16
+              marginTop: 32
             }}>
               <TextRoboto
                 align='center'
@@ -122,7 +128,7 @@ const SignUpCooperatorVerifyCode: React.FC<Props> = ({ createCooperator }: Props
               </TextRoboto>
             </View>
             <View style={{
-              marginTop: 16
+              marginTop: 40
             }}>
               <TextRoboto>CNPJ</TextRoboto>
               <Input
@@ -161,7 +167,7 @@ const SignUpCooperatorVerifyCode: React.FC<Props> = ({ createCooperator }: Props
                 bg={theme.primary}
                 onPress={() => navigationToAccessCode(values)}
                 onDisable={alertFormInvalid}
-                {...{ isValid }}
+                {...{ isValid, isLoading }}
               >
                 <MaterialIcons name="add" size={28} color={theme.textLight} />
               </ButtonCircular>

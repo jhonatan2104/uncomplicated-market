@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { View, Alert, TouchableOpacity } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 
@@ -44,6 +44,8 @@ const SignUpCompanyPassword: React.FC<Props> = ({ createCompany }: Props) => {
   const navigation = useNavigation()
   const refFormik = useRef<any>(null)
 
+  const [isLoading, setLoading] = useState(false)
+
   useEffect(() => {
     refFormik.current.validateForm()
   }, [])
@@ -73,12 +75,11 @@ const SignUpCompanyPassword: React.FC<Props> = ({ createCompany }: Props) => {
   }, [])
 
   const navigationToAccessCode = useCallback((values: FormValues): void => {
+    setLoading(true)
     const companyParamsRequest: ParamsExportRequest = {
       ...values,
       ...companyParams
     }
-
-    console.log(companyParamsRequest)
 
     createCompany.execute({
       cnpj: companyParamsRequest.cnpj,
@@ -86,11 +87,15 @@ const SignUpCompanyPassword: React.FC<Props> = ({ createCompany }: Props) => {
       email: companyParamsRequest.email,
       accessCode: companyParamsRequest.accessCode,
       password: companyParamsRequest.password
-    }).then((e) => {
-      Alert.alert('Seja bem vindo!')
     })
+      .then((e) => {
+        Alert.alert('Seja bem vindo!')
+      })
       .catch((e: Error) => {
         Alert.alert('Algo deu errado', e.message)
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }, [])
 
@@ -173,7 +178,7 @@ const SignUpCompanyPassword: React.FC<Props> = ({ createCompany }: Props) => {
                 bg={theme.primary}
                 onPress={() => navigationToAccessCode(values)}
                 onDisable={alertFormInvalid}
-                {...{ isValid }}
+                {...{ isValid, isLoading }}
               >
                 <MaterialIcons name="add" size={28} color={theme.textLight} />
               </ButtonCircular>
