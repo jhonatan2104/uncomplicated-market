@@ -1,13 +1,16 @@
 import { loadAppFonts } from '@/main/config/font'
+import { loadAppIcons } from '@/main/config/icon'
 
 const loading = async (
-  loadingFont: () => Promise<void>
+  loadingFont: () => Promise<void>,
+  loadingIcon: () => Promise<void>
 ): Promise<void> => {
   try {
     await loadingFont()
+    await loadingIcon()
   } catch (error) {
     throw new Error(error)
   }
 }
 
-export const helpersLoadingApp = async (): Promise<void> => loading(loadAppFonts)
+export const helpersLoadingApp = async (): Promise<void> => loading(loadAppFonts, loadAppIcons)
