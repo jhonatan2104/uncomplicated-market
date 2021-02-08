@@ -20,7 +20,8 @@ export function systemReducer (
     case SET_ACCOUNT:
       return {
         ...state,
-        account: action.payload
+        account: action.payload,
+        typeAccount: action.payload.type.identifier
       }
     default:
       return state
