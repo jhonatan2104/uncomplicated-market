@@ -1,5 +1,5 @@
-import { loadAppFonts } from '@/main/config/font'
-import { loadAppIcons } from '@/main/config/icon'
+import { loadAppFonts } from '@/presentation/config/font'
+import { loadAppIcons } from '@/presentation/config/icon'
 
 const loading = async (
   loadingFont: () => Promise<void>,
