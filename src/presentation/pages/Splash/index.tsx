@@ -14,14 +14,19 @@ import { CommonActions, useNavigation } from '@react-navigation/native'
 
 import { useDispatch } from 'react-redux'
 import { actionSetAccount } from '@/presentation/store/system/actions'
+import { TYPE_COMPANY, TYPE_COOPERATOR } from '@/data/constants/account'
+import { actionSetCompany } from '@/presentation/store/company/actions'
+import { actionSetCooperator } from '@/presentation/store/cooperator/actions'
+import { GetCompany } from '@/domain/usecases/company'
 
 type Props = {
   getStateAuth: StateAuth
+  getCompany: GetCompany
 }
 
 const { width } = Dimensions.get('screen')
 
-const Splash: React.FC<Props> = ({ getStateAuth }: Props) => {
+const Splash: React.FC<Props> = ({ getStateAuth, getCompany }: Props) => {
   const dispatch = useDispatch()
   const theme = useTheme()
   const navigation = useNavigation()
@@ -38,19 +43,51 @@ const Splash: React.FC<Props> = ({ getStateAuth }: Props) => {
     }).start()
   }, [])
 
-  const navigationToHome = useCallback((account) => {
-    dispatch(actionSetAccount(account))
+  const loadingStateAccount = useCallback(
+    async (account: StateAuth.Model) => {
+      try {
+        if (account) {
+          dispatch(actionSetAccount(account))
 
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          {
-            name: 'Home'
+          if (account.type.identifier === TYPE_COMPANY) {
+            dispatch(actionSetCompany({
+              cnpj: account.type.cnpj,
+              accessCode: account.type.accessCode
+            }))
+          } else if (account.type.identifier === TYPE_COOPERATOR) {
+            const company = await getCompany.execute({
+              cnpj: account.type.company
+            })
+            if (company) {
+              dispatch(actionSetCooperator({
+                company,
+                status: account.type.status
+              }))
+            } else {
+              console.warn('EMPRESA VINCULADA NÃO EXISTE')
+            }
+          } else {
+            console.error('TIPO DE ACCOUNT INVÁLIDO')
           }
-        ]
-      })
-    )
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }, [])
+
+  const navigationToHome = useCallback((account: StateAuth.Model) => {
+    loadingStateAccount(account).then(() => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'Home'
+            }
+          ]
+        })
+      )
+    })
   }, [])
 
   const navigationToLogin = useCallback(() => {
