@@ -27,7 +27,8 @@ const ButtonIcon: React.FC<Props & TouchableOpacityProps> = (props: Props & Touc
         width: 307,
         borderRadius: 32,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 8
       }}
       {...{ onPress }}>
       <View

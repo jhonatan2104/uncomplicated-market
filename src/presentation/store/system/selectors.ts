@@ -1,8 +1,7 @@
 import { AccountModel } from '@/domain/models'
 import { IRootState } from '../root-reducers'
-import { TypeAccount } from './@types/state'
 
-export const getTypeAccount = (state: IRootState): TypeAccount => {
+export const getTypeAccount = (state: IRootState): string => {
   return state.system.typeAccount
 }
 
