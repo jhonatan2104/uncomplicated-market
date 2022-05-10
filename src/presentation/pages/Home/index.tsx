@@ -1,8 +1,8 @@
 import { BackgroundCircle, ButtonIcon, TextRoboto } from '@/presentation/components'
 import { useTheme } from '@/presentation/hooks/use-theme'
 import { getAccount, getTypeAccount } from '@/presentation/store/system/selectors'
-import React, { useMemo } from 'react'
-import { View } from 'react-native'
+import React, { useCallback, useMemo } from 'react'
+import { Alert, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
 import { TYPE_COMPANY } from '@/data/constants/account'
@@ -33,6 +33,25 @@ const Home: React.FC = () => {
       return <MaterialIcons name="assignment-ind" size={52} color={theme.textLight} />
     }
   }, [account, typeAccount])
+
+  const navigationToProfile = useCallback(() => {
+    Alert.alert(
+      'Dejesa sair dessa conta?',
+      'Você será direcionda a tela de login',
+      [
+        {
+          text: 'Sim',
+          onPress: () => {},
+          style: 'destructive'
+        },
+        {
+          text: 'Não',
+          onPress: () => {},
+          style: 'cancel'
+        }
+      ]
+    )
+  }, [])
 
   return (
     <BackgroundCircle bg={theme.primary} bgBack={theme.base}>
@@ -65,6 +84,13 @@ const Home: React.FC = () => {
             disabled={typeAccount !== TYPE_COMPANY}
           >
             <MaterialIcons name='assessment' size={24} color={theme.textLight} />
+          </ButtonIcon>
+          <ButtonIcon
+            bg={theme.second}
+            title='PERFIL'
+            onPress={navigationToProfile}
+          >
+            <MaterialIcons name='account-circle' size={24} color={theme.textLight} />
           </ButtonIcon>
 
           <View style={{
